@@ -4,13 +4,15 @@ import InvoiceStatus from '@/app/ui/invoices/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/lib/data';
 
+type InvoicesTableProps = {
+  query: string;
+  currentPage: number;
+};
+
 export default async function InvoicesTable({
   query,
   currentPage,
-}: {
-  query: string;
-  currentPage: number;
-}) {
+}: InvoicesTableProps) {
   const invoices = await fetchFilteredInvoices(query, currentPage);
 
   return (
@@ -28,10 +30,10 @@ export default async function InvoicesTable({
                     <div className="mb-2 flex items-center">
                       <Image
                         src={invoice.image_url}
-                        className="mr-2 rounded-full"
+                        alt={`${invoice.name}'s profile picture`}
                         width={28}
                         height={28}
-                        alt={`${invoice.name}'s profile picture`}
+                        className="mr-2 rounded-full"
                       />
                       <p>{invoice.name}</p>
                     </div>
@@ -54,7 +56,7 @@ export default async function InvoicesTable({
               </div>
             ))}
           </div>
-          <table className="hidden min-w-full text-gray-900 md:table">
+          <table className="min-w-full overflow-x-auto text-gray-900 max-md:hidden">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
@@ -87,10 +89,10 @@ export default async function InvoicesTable({
                     <div className="flex items-center gap-3">
                       <Image
                         src={invoice.image_url}
-                        className="rounded-full"
+                        alt={`${invoice.name}'s profile picture`}
                         width={28}
                         height={28}
-                        alt={`${invoice.name}'s profile picture`}
+                        className="rounded-full"
                       />
                       <p>{invoice.name}</p>
                     </div>
